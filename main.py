@@ -131,22 +131,3 @@ plt.imshow(pixels, cmap='gray', aspect='auto')
 plt.title("Median Filter")
 plt.show()
 
-
-
-
-
-
-
-#Grab our window
-#Find the median
-#Replace the middle value with median
-#Mid is given by index+(window_size/2)
-
-#ji = [11,14,20,68,71,74,87,90,92]
-#lenji = len(ji)
-#print(int((lenji/2) + 1))
-#print(ji)
-#mid = int((lenji/2) + 1)
-#print(mid)
-#mo = OS.KthSmallest(ji.copy(), 0, lenji - 1, mid)
-#print(mo)
