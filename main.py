@@ -96,7 +96,7 @@ def medianFilter(image, step_size = 3):
       for rows in range(R - (step_size -1)):
         win = getWindow(image, step=step_size, rowIndex=rows, colIndex=cols)
         median = OS.KthSmallest(win.copy(), 0, (step_size**2)-1, m)
-        new_img[rows][cols] = median
+        new_img[rows+mid][cols+mid] = median
   return new_img
 
 '''
@@ -109,9 +109,9 @@ b = [100,300,500,1000,2000,4000]
 plt.plot(b, r3)
 plt.savefig('graph.png')
 '''
-pixels = mpimg.imread("lena512.png", 0)
-noise = saltpepper(pixels)
-show_img(noise)
+pixels = mpimg.imread("B5EhD.png", 0)
+#noise = saltpepper(pixels)
+show_img(pixels)
 print(pixels.shape)
 
 
@@ -125,7 +125,7 @@ for cols in range(pixels.shape[1] - 2):
     win = getWindow(pixels, step = 3, rowIndex = rows, colIndex = cols)
     l = len(win)
     medi = OS.KthSmallest(win.copy(), 0, l - 1, winmed)
-    pixels[rows,cols] = medi
+    pixels[rows+mid,cols+mid] = medi
 
 plt.imshow(pixels, cmap='gray', aspect='auto')
 plt.title("Median Filter")
