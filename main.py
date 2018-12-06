@@ -57,20 +57,33 @@ def show_img(img):
     plt.show()
 
 
-def mean_filter(filter_size, img):
-    new_img = np.zeros(img.shape)
-    R, C = new_img.shape
-    
-    D = filter_size/2
-    for i in range(R):
-        for j in range(C):    
-             start = (i-D,j-D)
-             end =  (i+D,j+D)
-             if i-D<0 or j-D<0 or i+D>R-1 or j+D >C-1:
-                 continue 
-             crop_img=crop(start, end, img)
-             new_img[i,j] = np.average(crop_img)
-    return new_img
+def gauss_noise(image):
+  row,col= image.shape
+  mean = 0
+  var = 0.1
+  sigma = var**0.5
+  gauss = np.random.normal(mean,sigma,(row,col))
+  gauss = gauss.reshape(row,col)
+  noisy = image + gauss
+  return noisy
+
+def saltpepper(image):
+    row,col = image.shape
+    s_vs_p = 0.5
+    amount =  0.05  #0.004
+    out = np.copy(image)
+    # Applys random white pixels to the image
+    num_salt = np.ceil(amount * image.size * s_vs_p)
+    coords = [np.random.randint(0, i - 1, int(num_salt)) for i in image.shape]
+    out[coords] = 1
+
+    # Applies random black dots to the image
+    num_pepper = np.ceil(amount* image.size * (1. - s_vs_p))
+    coords = [np.random.randint(0, i - 1, int(num_pepper))
+            for i in image.shape]
+    out[coords] = 0
+    return out
+
 
 def medianFilter(image, step_size = 3):
   new_img = np.zeros(image.shape)
@@ -85,6 +98,7 @@ def medianFilter(image, step_size = 3):
         median = OS.KthSmallest(win.copy(), 0, (step_size**2)-1, m)
         new_img[rows][cols] = median
   return new_img
+
 '''
 run_times = []
 run_times = setup()
@@ -95,10 +109,9 @@ b = [100,300,500,1000,2000,4000]
 plt.plot(b, r3)
 plt.savefig('graph.png')
 '''
-pixels = mpimg.imread("bnw.png")
-plt.figure()
-plt.imshow(pixels, cmap='gray', aspect='auto')
-plt.show()
+pixels = mpimg.imread("lena512.png", 0)
+noise = saltpepper(pixels)
+show_img(noise)
 print(pixels.shape)
 
 
